@@ -33,6 +33,7 @@
 
 .vs
 .vscode
+external/glfwlib
 
 *.vcxproj
 *.pdb

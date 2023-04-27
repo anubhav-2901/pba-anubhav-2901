@@ -41,7 +41,7 @@ Eigen::Vector2f time_integration_implicit(const Eigen::Vector2f& p0, float dt){
   Eigen::Vector2f b;
   // modify the following two lines to implement implicit time integration
   A << 1.f, -dt, 0.f, 1.f;
-  b << r0, v0 + dt * f0;
+  b << r0, v0 + dt * f0 / (1 - dr * dr * dfdr);
   return A.inverse()*b;
 }
 

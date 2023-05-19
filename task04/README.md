@@ -77,9 +77,9 @@ Record the computation time by filling the table below.
 
 | #points | time |
 | --- | --- |
-| 5000 | ? |
-| 10000 | ? |
-| 20000 | ? |
+| 5000 | 12ms |
+| 10000 | 13ms |
+| 20000 | 14ms |
 
 
 ## After Doing the Assignment

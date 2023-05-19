@@ -119,14 +119,38 @@ void nearest_kdtree(
 
   const Eigen::Vector2f pos = nodes[idx_node].pos;
   if ((pos - pos_in).norm() < (pos_near - pos_in).norm()) { pos_near = pos; } // update the nearest position
-
+ 
   if (i_depth % 2 == 0) { // division in x direction
-    nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, pos.x(), y_min, y_max, i_depth + 1);
-    nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, pos.x(), x_max, y_min, y_max, i_depth + 1);
-  } else { // division in y-direction
-    nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, x_max, y_min, pos.y(), i_depth + 1);
-    nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, x_min, x_max, pos.y(), y_max, i_depth + 1);
-  }
+    if (pos_in.x() < pos.x()){
+        nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, pos.x(), y_min, y_max, i_depth + 1);
+        float dist = std::abs(pos.x() - pos_in.x()); // check shortest distance to other branch
+        if (dist < (pos_near - pos_in).norm()) { // search other branch
+          nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, pos.x(), x_max, y_min, y_max, i_depth + 1);
+        }
+      }
+    else{
+        nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, pos.x(), x_max, y_min, y_max, i_depth + 1);
+        float dist = std::abs(pos.x() - pos_in.x()); // check shortest distance to other branch
+        if (dist < (pos_near - pos_in).norm()) { // search other branch
+          nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, pos.x(), y_min, y_max, i_depth + 1);
+        }
+      }
+    } else { // division in y-direction
+    if (pos_in.y() < pos.y()){
+        nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, x_max, y_min, pos.y(), i_depth + 1);
+        float dist = std::abs(pos.y() - pos_in.y()); // check shortest distance to other branch
+        if (dist < (pos_near - pos_in).norm()) { // search other branch
+          nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, x_min, x_max, pos.y(), y_max, i_depth + 1);
+        }
+      }
+    else{
+      nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_right, x_min, x_max, pos.y(), y_max, i_depth + 1);
+        float dist = std::abs(pos.y() - pos_in.y()); // check shortest distance to other branch
+        if (dist < (pos_near - pos_in).norm()) { // search other branch
+          nearest_kdtree(pos_near, pos_in, nodes, nodes[idx_node].idx_node_left, x_min, x_max, y_min, pos.y(), i_depth + 1);
+        }
+      }
+    }
 }
 
 /**

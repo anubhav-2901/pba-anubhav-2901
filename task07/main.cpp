@@ -26,6 +26,11 @@ void solve_laplace_gauss_sidel_on_grid(
       if (vtx2isfix[idx_center]) { continue; }
       // write some code below to implement Gauss-Sidel method
       // Do not write more than 5 lines of code
+      unsigned int idx_left = idx_center - 1;
+      unsigned int idx_right = idx_center + 1;
+      unsigned int idx_up = (iy + 1) * grid_size + ix;
+      unsigned int idx_down = (iy - 1) * grid_size + ix;
+      vtx2val[idx_center] = 0.25 * (vtx2val[idx_left] + vtx2val[idx_right] + vtx2val[idx_up] + vtx2val[idx_down]);
     }
   }
 }
